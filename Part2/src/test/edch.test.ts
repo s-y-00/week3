@@ -29,6 +29,7 @@ describe('ECDH test', () => {
     //console.log('plaintext:', aliceMessage);
     // Alice encrypt with her private key and bob pubkey
     const ciphertext = await encrypt(aliceMessage, ecdhSharedKey);
+    // console.log(ciphertext);
 
     // decrypting using bob's private key + alice pubkey
     const ecdhbobSharedKey = await genEcdhSharedKey({
@@ -38,7 +39,7 @@ describe('ECDH test', () => {
     });
     const decryptedMessage = await decrypt(ciphertext, ecdhbobSharedKey);
     expect(decryptedMessage).toStrictEqual(aliceMessage);
-  });
+  }, 10000);
 
   it('should fail if decrypted with incorrect public key', async () => {
     const { privKey: bobPrivKey, pubKey: bobPubKey } = genKeypair(eddsa);
@@ -67,5 +68,5 @@ describe('ECDH test', () => {
 
     const decryptedMessage = await decrypt(ciphertext, ecdhSharedIncorrectKey);
     expect(decryptedMessage).not.toEqual(aliceMessage);
-  });
+  }, 10000);
 });
